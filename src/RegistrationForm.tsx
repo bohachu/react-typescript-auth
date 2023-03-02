@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert, Container, Row, Col } from 'react-bootstrap';
-import './RegistrationForm.css';
+import './falra.css';
 
-interface IRegistrationResponse {
+interface RegistrationFormProps {
+  onSuccess: () => void;
+}
+
+interface RegistrationFormData {
+  username: string;
+  email: string;
+  password: string;
+}
+
+interface RegistrationResponseData {
   action: string;
   username: string;
   time: string;
@@ -10,44 +20,55 @@ interface IRegistrationResponse {
   message: string;
 }
 
-const RegistrationForm: React.FC = () => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [response, setResponse] = useState<IRegistrationResponse>({
-    action: '',
+const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess }) => {
+  const [formData, setFormData] = useState<RegistrationFormData>({
     username: '',
-    time: '',
-    success: false,
-    message: '',
+    email: '',
+    password: '',
   });
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [showPlaceholder, setShowPlaceholder] = useState<boolean>(true);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsLoading(true);
-
-    const response = await fetch(`http://localhost:8000/api/users/v1/register`);
-    const user = await response.json();
-
-    setIsLoading(false);
-    setResponse(user.response);
+    try {
+      const response = await fetch('http://localhost:8000/api/users/v1/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const responseData: RegistrationResponseData = await response.json();
+      if (responseData.success) {
+        onSuccess();
+      } else {
+        setErrorMessage(responseData.message);
+      }
+    } catch (error) {
+      setErrorMessage('Registration failed. Please try again later.');
+    }
   };
 
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">
         <Col md={8} lg={6} xl={5}>
-          <h2 className="text-center mb-4">Sign up for an account</h2>
+          <h2 className="text-center mb-4">Register</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formUsername">
               <Form.Control
                 type="text"
                 placeholder="Username"
-                value={username}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setUsername(event.target.value)}
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
                 required
-                className="registration-input"
+                className="falra-input"
               />
             </Form.Group>
 
@@ -55,10 +76,11 @@ const RegistrationForm: React.FC = () => {
               <Form.Control
                 type="email"
                 placeholder="Email"
-                value={email}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
                 required
-                className="registration-input"
+                className="falra-input"
               />
             </Form.Group>
 
@@ -66,23 +88,24 @@ const RegistrationForm: React.FC = () => {
               <Form.Control
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
                 required
-                className="registration-input"
+                className="falra-input"
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="w-100 mt-3 registration-button" disabled={isLoading}>
-              {isLoading ? 'Loading...' : 'Create account'}
+            {errorMessage && (
+              <Alert variant="danger" className="mt-4">
+                {errorMessage}
+              </Alert>
+            )}
+
+            <Button variant="primary" type="submit" className="w-100 mt-3 falra-button">
+              Register
             </Button>
           </Form>
-
-          {response.message && (
-            <Alert variant={response.success ? 'success' : 'danger'} className="mt-4">
-              {response.message}
-            </Alert>
-          )}
         </Col>
       </Row>
     </Container>

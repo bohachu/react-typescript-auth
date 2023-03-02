@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert, Container, Row, Col } from 'react-bootstrap';
-import './LoginForm.css';
+import './falra.css';
 
 interface ILoginResponse {
   action: string;
@@ -47,29 +47,29 @@ const LoginForm: React.FC = () => {
         <Col md={8} lg={6} xl={5}>
           <h2 className="text-center mb-4">Log in to your account</h2>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formUsername">
+            <Form.Group controlId="formLoginUsername">
               <Form.Control
                 type="text"
                 placeholder="Username"
                 value={username}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => setUsername(event.target.value)}
                 required
-                className="login-input"
+                className="falra-input"
               />
             </Form.Group>
 
-            <Form.Group controlId="formPassword">
+            <Form.Group controlId="formLoginPassword">
               <Form.Control
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
                 required
-                className="login-input"
+                className="falra-input"
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="w-100 mt-3 login-button" disabled={isLoading}>
+            <Button variant="primary" type="submit" className="w-100 mt-3 falra-button" disabled={isLoading}>
               {isLoading ? 'Loading...' : 'Log in'}
             </Button>
           </Form>
