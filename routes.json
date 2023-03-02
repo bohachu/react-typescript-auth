@@ -1,0 +1,4 @@
+{
+    "/api/users/v1/register": "/users/:username/response"
+  }
+  

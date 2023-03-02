@@ -27,17 +27,11 @@ const RegistrationForm: React.FC = () => {
     event.preventDefault();
     setIsLoading(true);
 
-    const response = await fetch('your_registration_api_url', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password, email }),
-    });
+    const response = await fetch(`http://localhost:8000/api/users/v1/register`);
+    const user = await response.json();
 
-    const responseData = await response.json();
     setIsLoading(false);
-    setResponse(responseData);
+    setResponse(user.response);
   };
 
   return (

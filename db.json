@@ -1,0 +1,29 @@
+{
+    "users": [
+      {
+        "username": "user_success",
+        "password": "your_password",
+        "email": "your_email",
+        "response": {
+          "action": "register",
+          "username": "user_success",
+          "time": "2022-03-01T10:00:00Z",
+          "success": true,
+          "message": "Registration success."
+        }
+      },
+      {
+        "username": "user_fail",
+        "password": "your_password",
+        "email": "your_email",
+        "response": {
+          "action": "register",
+          "username": "",
+          "time": "",
+          "success": false,
+          "message": "Registration failed."
+        }
+      }
+    ]
+  }
+  
