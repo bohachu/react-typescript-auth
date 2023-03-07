@@ -1,0 +1,7 @@
+2023-03-07 12:01 bowen caro
+bowen i 對於新版本 react rounting 不太會用，應該要先學會才來用，不然會變拐杖
+bowen + 恢復變成可以跑 yarn start 版本還是能跑，只是有問題的 router 不作用
+bowen + caro 竟然可以逆向工程 replit 畫面，很厲害
+caro i 應該要用更乾淨的小程式，更容易 debug (bowen 大疊加，應該是重新建立全新的最簡單）
+next todo:
+為了學習更乾淨的 react typescript 可以請 aid 直接教學 caro
